@@ -8,6 +8,7 @@ OpenAI's [DALL-E](https://openai.com/blog/dall-e/), based on [DALL-E Mini](https
 
 https://user-images.githubusercontent.com/6180201/136710500-8bb01b4c-5741-4007-a8ea-e18ba5895649.mp4
 
+[DC fork](https://github.com/dcsan/dalle-playground)
 
 ## Fast usage
 
