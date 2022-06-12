@@ -1,3 +1,4 @@
+from dalle_model import DalleModel
 import base64
 import sys
 from io import BytesIO
@@ -10,7 +11,6 @@ app = Flask(__name__)
 CORS(app)
 print("--> Starting DALL-E Server. This might take up to two minutes.")
 
-from dalle_model import DalleModel
 dalle_model = None
 
 
@@ -20,6 +20,8 @@ def generate_images_api():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_images = json_data["num_images"]
+    print('json_data: ', json_data)
+    print('text_prompt: ', text_prompt)
     generated_imgs = dalle_model.generate_images(text_prompt, num_images)
 
     generated_images = []
