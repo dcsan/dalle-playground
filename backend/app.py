@@ -20,9 +20,11 @@ def generate_images_api():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_images = json_data["num_images"]
+    seed = json_data["seed"]
     print('json_data: ', json_data)
     print('text_prompt: ', text_prompt)
-    generated_imgs = dalle_model.generate_images(text_prompt, num_images)
+    print('seed: ', seed)
+    generated_imgs = dalle_model.generate_images(text_prompt, num_images, seed)
 
     generated_images = []
     for img in generated_imgs:
