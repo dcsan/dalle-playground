@@ -20,11 +20,18 @@ def generate_images_api():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_images = json_data["num_images"]
-    seed = json_data["seed"]
-    print('json_data: ', json_data)
-    print('text_prompt: ', text_prompt)
-    print('seed: ', seed)
-    generated_imgs = dalle_model.generate_images(text_prompt, num_images, seed)
+    generated_imgs = dalle_model.generate_images(text_prompt, num_images)
+
+    returned_generated_images = []
+    if args.save_to_disk:
+        dir_name = os.path.join(
+            args.output_dir, f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{text_prompt}")
+        Path(dir_name).mkdir(parents=True, exist_ok=True)
+
+    for idx, img in enumerate(generated_imgs):
+        if args.save_to_disk:
+            img.save(os.path.join(
+                dir_name, f'{idx}.{args.img_format}'), format=args.img_format)
 
     generated_images = []
     for img in generated_imgs:
@@ -55,4 +62,4 @@ with app.app_context():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(sys.argv[1]), debug=False)
+    app.run(host="0.0.0.0", port=args.port, debug=False)

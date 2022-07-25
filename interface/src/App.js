@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {
     Card, CardContent, FormControl, FormHelperText,
     InputLabel, MenuItem, Select, Typography
 } from "@material-ui/core";
-import {callDalleService} from "./backend_api";
+import { callDalleService } from "./backend_api";
 import GeneratedImageList from "./GeneratedImageList";
 import TextPromptInput from "./TextPromptInput";
 
@@ -60,7 +60,7 @@ const useStyles = () => ({
 });
 
 
-const App = ({classes}) => {
+const App = ({ classes }) => {
     const [backendUrl, setBackendUrl] = useState('');
     const [isFetchingImgs, setIsFetchingImgs] = useState(false);
     const [isCheckingBackendEndpoint, setIsCheckingBackendEndpoint] = useState(false);
@@ -73,7 +73,7 @@ const App = ({classes}) => {
     const imagesPerQueryOptions = 10
     const validBackendUrl = isValidBackendEndpoint && backendUrl
 
-    function enterPressedCallback(promptText) {
+    function enterPressedCallback (promptText) {
         console.log('API call to DALL-E web service with the following prompt [' + promptText + ']');
         setApiError('')
         setIsFetchingImgs(true)
@@ -81,6 +81,16 @@ const App = ({classes}) => {
             setQueryTime(response['executionTime'])
             setGeneratedImages(response['generatedImgs'])
             setIsFetchingImgs(false)
+
+            if (notificationsOn) {
+                new Notification(
+                    "Your DALL-E images are ready!",
+                    {
+                        body: `Your generations for "${promptText}" are ready to view`,
+                        icon: NOTIFICATION_ICON,
+                    },
+                )
+            }
         }).catch((error) => {
             console.log('Error querying DALL-E service.', error)
             if (error.message === 'Timeout') {
@@ -92,16 +102,16 @@ const App = ({classes}) => {
         })
     }
 
-    function getGalleryContent() {
+    function getGalleryContent () {
         if (apiError) {
             return <Typography variant="h5" color="error">{apiError}</Typography>
         }
 
         if (isFetchingImgs) {
-            return <LoadingSpinner isLoading={isFetchingImgs}/>
+            return <LoadingSpinner isLoading={isFetchingImgs} />
         }
 
-        return <GeneratedImageList generatedImages={generatedImages}/>
+        return <GeneratedImageList generatedImages={generatedImages} />
     }
 
     return (
@@ -123,23 +133,26 @@ const App = ({classes}) => {
                     <Card className={classes.searchQueryCard}>
                         <CardContent>
                             <BackendUrlInput setBackendValidUrl={setBackendUrl}
-                                             isValidBackendEndpoint={isValidBackendEndpoint}
-                                             setIsValidBackendEndpoint={setIsValidBackendEndpoint}
-                                             setIsCheckingBackendEndpoint={setIsCheckingBackendEndpoint}
-                                             isCheckingBackendEndpoint={isCheckingBackendEndpoint}
-                                             disabled={isFetchingImgs}/>
-                            <TextPromptInput enterPressedCallback={enterPressedCallback}
-                                             disabled={isFetchingImgs || !validBackendUrl}/>
+                                isValidBackendEndpoint={isValidBackendEndpoint}
+                                setIsValidBackendEndpoint={setIsValidBackendEndpoint}
+                                setIsCheckingBackendEndpoint={setIsCheckingBackendEndpoint}
+                                isCheckingBackendEndpoint={isCheckingBackendEndpoint}
+                                disabled={isFetchingImgs} />
+
+                            <TextPromptInput enterPressedCallback={enterPressedCallback} promptText={promptText} setPromptText={setPromptText}
+                                disabled={isFetchingImgs || !validBackendUrl} />
+
+                            <NotificationCheckbox isNotificationOn={notificationsOn} setNotifications={setNotificationsOn} />
 
                             <FormControl className={classes.imagesPerQueryControl}
-                                         variant="outlined">
+                                variant="outlined">
                                 <InputLabel id="images-per-query-label">
                                     Images to generate
                                 </InputLabel>
                                 <Select labelId="images-per-query-label"
-                                        label="Images per query" value={imagesPerQuery}
-                                        disabled={isFetchingImgs}
-                                        onChange={(event) => setImagesPerQuery(event.target.value)}>
+                                    label="Images per query" value={imagesPerQuery}
+                                    disabled={isFetchingImgs}
+                                    onChange={(event) => setImagesPerQuery(event.target.value)}>
                                     {Array.from(Array(imagesPerQueryOptions).keys()).map((num) => {
                                         return <MenuItem key={num + 1} value={num + 1}>
                                             {num + 1}
@@ -154,10 +167,11 @@ const App = ({classes}) => {
                         Query execution time: {queryTime} sec
                     </Typography>}
                 </div>
+
                 {(generatedImages.length > 0 || apiError || isFetchingImgs) &&
-                <div className={classes.gallery}>
-                    {getGalleryContent()}
-                </div>
+                    <div className={classes.gallery}>
+                        {getGalleryContent()}
+                    </div>
                 }
             </div>
         </div>
