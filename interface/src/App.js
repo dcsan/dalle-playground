@@ -80,7 +80,7 @@ const App = ({ classes }) => {
     const imagesPerQueryOptions = 10
     const validBackendUrl = isValidBackendEndpoint && backendUrl
 
-    function enterPressedCallback(promptText) {
+    function enterPressedCallback (promptText) {
         console.log('API call to DALL-E web service with the following prompt [' + promptText + ']');
         setApiError('')
         setIsFetchingImgs(true)
@@ -90,7 +90,10 @@ const App = ({ classes }) => {
             setGeneratedImagesFormat(response['serverResponse']['generatedImgsFormat'])
             setIsFetchingImgs(false)
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> dc-fork
             if (notificationsOn) {
                 new Notification(
                     "Your DALL-E images are ready!",
@@ -111,7 +114,7 @@ const App = ({ classes }) => {
         })
     }
 
-    function getGalleryContent() {
+    function getGalleryContent () {
         if (apiError) {
             return <Typography variant="h5" color="error">{apiError}</Typography>
         }
@@ -120,7 +123,11 @@ const App = ({ classes }) => {
             return <LoadingSpinner isLoading={isFetchingImgs} />
         }
 
+<<<<<<< HEAD
+        return <GeneratedImageList generatedImages={generatedImages} />
+=======
         return <GeneratedImageList generatedImages={generatedImages} generatedImagesFormat={generatedImagesFormat} promptText={promptText} />
+>>>>>>> dc-fork
     }
 
 
@@ -152,7 +159,11 @@ const App = ({ classes }) => {
                             <TextPromptInput enterPressedCallback={enterPressedCallback} promptText={promptText} setPromptText={setPromptText}
                                 disabled={isFetchingImgs || !validBackendUrl} />
 
+<<<<<<< HEAD
+                            <NotificationCheckbox isNotificationOn={notificationsOn} setNotifications={setNotificationsOn} />
+=======
                             {/* <NotificationCheckbox isNotificationOn={notificationsOn} setNotifications={setNotificationsOn}/> */}
+>>>>>>> dc-fork
 
                             <FormControl className={classes.imagesPerQueryControl}
                                 variant="outlined">
@@ -160,7 +171,11 @@ const App = ({ classes }) => {
                                     Images to generate
                                 </InputLabel>
                                 <Select labelId="images-per-query-label"
+<<<<<<< HEAD
+                                    label="Images per query" value={imagesPerQuery}
+=======
                                     label="Images per text prompt" value={imagesPerQuery}
+>>>>>>> dc-fork
                                     disabled={isFetchingImgs}
                                     onChange={(event) => setImagesPerQuery(event.target.value)}>
                                     {Array.from(Array(imagesPerQueryOptions).keys()).map((num) => {
@@ -177,6 +192,7 @@ const App = ({ classes }) => {
                         Generation execution time: {queryTime} sec
                     </Typography>}
                 </div>
+
                 {(generatedImages.length > 0 || apiError || isFetchingImgs) &&
                     <div className={classes.gallery}>
                         {getGalleryContent()}

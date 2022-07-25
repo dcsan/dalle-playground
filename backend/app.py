@@ -35,6 +35,17 @@ def generate_images_api():
     generated_imgs = dalle_model.generate_images(text_prompt, num_images)
 
     returned_generated_images = []
+<<<<<<< HEAD
+    if args.save_to_disk:
+        dir_name = os.path.join(
+            args.output_dir, f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{text_prompt}")
+        Path(dir_name).mkdir(parents=True, exist_ok=True)
+
+    for idx, img in enumerate(generated_imgs):
+        if args.save_to_disk:
+            img.save(os.path.join(
+                dir_name, f'{idx}.{args.img_format}'), format=args.img_format)
+=======
     if args.save_to_disk: 
         dir_name = os.path.join(args.output_dir,f"{time.strftime('%Y-%m-%d_%H:%M:%S')}_{text_prompt}")
         Path(dir_name).mkdir(parents=True, exist_ok=True)
@@ -42,6 +53,7 @@ def generate_images_api():
     for idx, img in enumerate(generated_imgs):
         if args.save_to_disk: 
           img.save(os.path.join(dir_name, f'{idx}.{args.img_format}'), format=args.img_format)
+>>>>>>> dc-fork
 
         buffered = BytesIO()
         img.save(buffered, format=args.img_format)
@@ -69,4 +81,8 @@ with app.app_context():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(host="0.0.0.0", port=args.port, debug=False)
+=======
+    app.run(host="0.0.0.0", port=args.port, debug=False)
+>>>>>>> dc-fork

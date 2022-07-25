@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+venv
+
+node_modules/
+
+=======
+>>>>>>> dc-fork
 /venv
 /wandb
 /.vscode
