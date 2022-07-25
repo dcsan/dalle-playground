@@ -11,6 +11,7 @@ import TextPromptInput from "./TextPromptInput";
 import "./App.css";
 import BackendUrlInput from "./BackendUrlInput";
 import LoadingSpinner from "./LoadingSpinner";
+import NotificationCheckbox from './NotificationCheckbox';
 
 const useStyles = () => ({
     root: {
@@ -59,13 +60,19 @@ const useStyles = () => ({
     },
 });
 
+const NOTIFICATION_ICON = "https://camo.githubusercontent.com/95d3eed25e464b300d56e93644a26c8236a19e04572cf83a95c9d68f8126be83/68747470733a2f2f656d6f6a6970656469612d75732e73332e6475616c737461636b2e75732d776573742d312e616d617a6f6e6177732e636f6d2f7468756d62732f3234302f6170706c652f3238352f776f6d616e2d6172746973745f31663436392d323030642d31663361382e706e67";
 
 const App = ({ classes }) => {
     const [backendUrl, setBackendUrl] = useState('');
+    const [promptText, setPromptText] = useState('');
     const [isFetchingImgs, setIsFetchingImgs] = useState(false);
     const [isCheckingBackendEndpoint, setIsCheckingBackendEndpoint] = useState(false);
     const [isValidBackendEndpoint, setIsValidBackendEndpoint] = useState(true);
+    const [notificationsOn, setNotificationsOn] = useState(false);
+
     const [generatedImages, setGeneratedImages] = useState([]);
+    const [generatedImagesFormat, setGeneratedImagesFormat] = useState('jpeg');
+
     const [apiError, setApiError] = useState('')
     const [imagesPerQuery, setImagesPerQuery] = useState(2);
     const [queryTime, setQueryTime] = useState(0);
@@ -79,9 +86,14 @@ const App = ({ classes }) => {
         setIsFetchingImgs(true)
         callDalleService(backendUrl, promptText, imagesPerQuery).then((response) => {
             setQueryTime(response['executionTime'])
-            setGeneratedImages(response['generatedImgs'])
+            setGeneratedImages(response['serverResponse']['generatedImgs'])
+            setGeneratedImagesFormat(response['serverResponse']['generatedImgsFormat'])
             setIsFetchingImgs(false)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dc-fork
             if (notificationsOn) {
                 new Notification(
                     "Your DALL-E images are ready!",
@@ -111,8 +123,13 @@ const App = ({ classes }) => {
             return <LoadingSpinner isLoading={isFetchingImgs} />
         }
 
+<<<<<<< HEAD
         return <GeneratedImageList generatedImages={generatedImages} />
+=======
+        return <GeneratedImageList generatedImages={generatedImages} generatedImagesFormat={generatedImagesFormat} promptText={promptText} />
+>>>>>>> dc-fork
     }
+
 
     return (
         <div className={classes.root}>
@@ -142,7 +159,11 @@ const App = ({ classes }) => {
                             <TextPromptInput enterPressedCallback={enterPressedCallback} promptText={promptText} setPromptText={setPromptText}
                                 disabled={isFetchingImgs || !validBackendUrl} />
 
+<<<<<<< HEAD
                             <NotificationCheckbox isNotificationOn={notificationsOn} setNotifications={setNotificationsOn} />
+=======
+                            {/* <NotificationCheckbox isNotificationOn={notificationsOn} setNotifications={setNotificationsOn}/> */}
+>>>>>>> dc-fork
 
                             <FormControl className={classes.imagesPerQueryControl}
                                 variant="outlined">
@@ -150,7 +171,11 @@ const App = ({ classes }) => {
                                     Images to generate
                                 </InputLabel>
                                 <Select labelId="images-per-query-label"
+<<<<<<< HEAD
                                     label="Images per query" value={imagesPerQuery}
+=======
+                                    label="Images per text prompt" value={imagesPerQuery}
+>>>>>>> dc-fork
                                     disabled={isFetchingImgs}
                                     onChange={(event) => setImagesPerQuery(event.target.value)}>
                                     {Array.from(Array(imagesPerQueryOptions).keys()).map((num) => {
@@ -159,12 +184,12 @@ const App = ({ classes }) => {
                                         </MenuItem>
                                     })}
                                 </Select>
-                                <FormHelperText>More images = slower query</FormHelperText>
+                                <FormHelperText>More images = More time to generate</FormHelperText>
                             </FormControl>
                         </CardContent>
                     </Card>
                     {queryTime !== 0 && <Typography variant="body2" color="textSecondary">
-                        Query execution time: {queryTime} sec
+                        Generation execution time: {queryTime} sec
                     </Typography>}
                 </div>
 

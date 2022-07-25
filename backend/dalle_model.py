@@ -18,14 +18,11 @@ import wandb
 
 from consts import COND_SCALE, DALLE_COMMIT_ID, DALLE_MODEL_MEGA_FULL, DALLE_MODEL_MEGA, DALLE_MODEL_MINI, GEN_TOP_K, GEN_TOP_P, TEMPERATURE, VQGAN_COMMIT_ID, VQGAN_REPO, ModelSize
 
-# https://github.com/saharmor/dalle-playground/issues/14#issuecomment-1147849318
-os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform"
+os.environ["XLA_PYTHON_CLIENT_ALLOCATOR"] = "platform" # https://github.com/saharmor/dalle-playground/issues/14#issuecomment-1147849318
 os.environ["WANDB_SILENT"] = "true"
 wandb.init(anonymous="must")
 
 # model inference
-
-
 @partial(jax.pmap, axis_name="batch", static_broadcasted_argnums=(3, 4, 5, 6, 7))
 def p_generate(
     tokenized_prompt, key, params, top_k, top_p, temperature, condition_scale, model
@@ -58,7 +55,8 @@ class DalleModel:
         else:
             dalle_model = DALLE_MODEL_MINI
             dtype = jnp.float32
-
+            
+            
         # Load dalle-mini
         self.model, params = DalleBart.from_pretrained(
             dalle_model, revision=DALLE_COMMIT_ID, dtype=dtype, _do_init=False
@@ -72,18 +70,19 @@ class DalleModel:
         self.params = replicate(params)
         self.vqgan_params = replicate(vqgan_params)
 
-        self.processor = DalleBartProcessor.from_pretrained(
-            dalle_model, revision=DALLE_COMMIT_ID)
+        self.processor = DalleBartProcessor.from_pretrained(dalle_model, revision=DALLE_COMMIT_ID)
+
 
     def tokenize_prompt(self, prompt: str):
         tokenized_prompt = self.processor([prompt])
         return replicate(tokenized_prompt)
 
-    def generate_images(self, prompt: str, num_predictions: int, seed: int = None):
+
+    def generate_images(self, prompt: str, num_predictions: int):
         tokenized_prompt = self.tokenize_prompt(prompt)
 
         # create a random key
-        seed = seed or random.randint(0, 2 ** 32 - 1)
+        seed = random.randint(0, 2 ** 32 - 1)
         key = jax.random.PRNGKey(seed)
 
         # generate images
@@ -107,12 +106,9 @@ class DalleModel:
             encoded_images = encoded_images.sequences[..., 1:]
 
             # decode images
-            decoded_images = p_decode(
-                self.vqgan, encoded_images, self.vqgan_params)
-            decoded_images = decoded_images.clip(
-                0.0, 1.0).reshape((-1, 256, 256, 3))
+            decoded_images = p_decode(self.vqgan, encoded_images, self.vqgan_params)
+            decoded_images = decoded_images.clip(0.0, 1.0).reshape((-1, 256, 256, 3))
             for img in decoded_images:
-                images.append(Image.fromarray(
-                    np.asarray(img * 255, dtype=np.uint8)))
+                images.append(Image.fromarray(np.asarray(img * 255, dtype=np.uint8)))
 
         return images

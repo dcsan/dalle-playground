@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 venv
 
 node_modules/
 
+=======
+>>>>>>> dc-fork
 /venv
 /wandb
 /.vscode
 /backend/__pycache__
+/interface/node_modules
+/interface/build

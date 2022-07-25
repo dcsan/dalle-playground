@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "name": "dalle-playground",
     "homepage": "https://saharmor.github.io/dalle-playground",
     "version": "0.0.0",
@@ -39,6 +40,8 @@
     ]
 }
 =======
+=======
+>>>>>>> dc-fork
   "name": "dalle-playground",
   "homepage": "https://saharmor.github.io/dalle-playground",
   "version": "0.0.0",
@@ -60,7 +63,11 @@
     "qs": "^6.10.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+<<<<<<< HEAD
     "react-scripts": "^5.0.1",
+=======
+    "react-scripts": "^3.4.1",
+>>>>>>> dc-fork
     "react-spinners": "^0.11.0"
   },
   "devDependencies": {
@@ -77,4 +84,7 @@
     "not op_mini all"
   ]
 }
+<<<<<<< HEAD
 >>>>>>> a64d0597dfae6aeefb504e8f95a5a6e80ba2f161
+=======
+>>>>>>> dc-fork

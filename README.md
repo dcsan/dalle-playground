@@ -1,3 +1,6 @@
+Open DC fork [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dcsan/dalle-playground/blob/main/backend/dalle_playground_backend.ipynb)
+
+
 <p align="center">
 <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/woman-artist_1f469-200d-1f3a8.png" width="60" alt="Dali">
   <h2 align="center">DALL-E Playground</h2>
@@ -5,9 +8,6 @@
 
 A playground for DALL-E enthusiasts to tinker with the open-source version of
 OpenAI's [DALL-E](https://openai.com/blog/dall-e/), based on [DALL-E Mini](https://github.com/borisdayma/dalle-mini).
-
-- [DC fork](https://github.com/dcsan/dalle-playground)
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dcsan/dalle-playground/blob/main/backend/dalle_playground_backend.ipynb)
 
 https://user-images.githubusercontent.com/6180201/136710500-8bb01b4c-5741-4007-a8ea-e18ba5895649.mp4
 
@@ -17,7 +17,11 @@ https://user-images.githubusercontent.com/6180201/136710500-8bb01b4c-5741-4007-a
 You can tinker with the DALL-E playground using a Github-hosted frontend. Follow these steps:
 
 1. Run the DALL-E backend using Google Colab [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saharmor/dalle-playground/blob/main/backend/dalle_playground_backend.ipynb)
+<<<<<<< HEAD
 2. Copy the URL from the last executed cell. Look for the line having `your url is: https://XXXX.trycloudflare.com`
+=======
+2. Copy the URL from the last executed cell. Look for the line having `your url is: https://XXXX.loca.lt`
+>>>>>>> dc-fork
 3. **Wait for the backend to fully load**, this should take ~2min and you should see `--> DALL-E Server is up and running!`
 5. Browse https://saharmor.github.io/dalle-playground/?backendUrl=https://XXXX.trycloudflare.com where the `backendUrl` query parameter should be the url from the previous step
 
